@@ -4,7 +4,6 @@ const nodepub = require('nodepub');
 (async function() {
 
     const baseURL = "https://jpmtl.com";
-    const dataset = await Apify.openDataset('bookworm');
     const epub = nodepub.document({
         id: new Date().getTime(),
         cover: "covers/bookworm.jpg",
@@ -50,11 +49,6 @@ const nodepub = require('nodepub');
             // Content
             $('article .chapter-content__content > .cp-content > p').each((index, el) => {
                 content.push($(el).text().replace(/^\s+|\s+$/g, ''));
-            });
-            await dataset.pushData({
-                url: request.url,
-                title, 
-                content,
             });
             console.log(request.url, title);
             epub.addSection(title, content.join("<br />"))
