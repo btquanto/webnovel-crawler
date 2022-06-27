@@ -1,0 +1,8 @@
+{
+  "name": "novel-crawler",
+  "version": "1.0.0",
+  "description": "Novel crawler",
+  "main": "index.js",
+  "author": "Quan To",
+  "license": "MIT"
+}
