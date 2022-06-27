@@ -4,5 +4,10 @@
   "description": "Novel crawler",
   "main": "index.js",
   "author": "Quan To",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "apify": "^2.3.2",
+    "cheerio": "^1.0.0-rc.12",
+    "nodepub": "^3.0.8"
+  }
 }
