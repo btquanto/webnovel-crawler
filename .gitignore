@@ -1,4 +1,4 @@
 yarn-error.log
 node_modules
-apify_storage
+apify*
 output

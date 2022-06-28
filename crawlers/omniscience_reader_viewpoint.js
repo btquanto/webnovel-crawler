@@ -1,3 +1,4 @@
+process.env.APIFY_LOCAL_STORAGE_DIR = "apify/omniscience_reader_viewpoint";
 const Apify = require('apify');
 const nodepub = require('nodepub');
 
@@ -48,10 +49,13 @@ const nodepub = require('nodepub');
         
             // Title
             const title = $('article > section div.titles > h1 > span.chapter-title').text();
-            const content = [];
+            const content = [title];
             // Content
-            $('article .chapter-container > p').each((index, el) => {
-                content.push($(el).text().replace(/^\s+|\s+$/g, ''));
+            $('article #chapter-container > p').each((index, el) => {
+                const text = $(el).text().replace(/^\s+|\s+$/g, '');
+                if(!!text && text.toLowerCase().indexOf("lightnovelpub.com") < 0) {
+                    content.push(text);
+                }
             });
             console.log(request.url, title);
             epub.addSection(title, content.join("<br />"))

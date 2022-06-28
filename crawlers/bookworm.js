@@ -1,3 +1,4 @@
+process.env.APIFY_LOCAL_STORAGE_DIR = "apify/bookworm";
 const Apify = require('apify');
 const nodepub = require('nodepub');
 
@@ -45,10 +46,13 @@ const nodepub = require('nodepub');
             }
             // Title
             const title = $('div.cnav-header__title > h1 > span:last-child').text();
-            const content = [];
+            const content = [title];
             // Content
             $('article .chapter-content__content > .cp-content > p').each((index, el) => {
-                content.push($(el).text().replace(/^\s+|\s+$/g, ''));
+                const text = $(el).text().replace(/^\s+|\s+$/g, '');
+                if(!!text && text.toLowerCase().indexOf("jpmtl.com") < 0) {
+                    content.push(text);
+                }
             });
             console.log(request.url, title);
             epub.addSection(title, content.join("<br />"))
