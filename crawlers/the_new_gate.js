@@ -5,7 +5,6 @@ const volumes = require('../data/the_new_gate');
 
 (async function() {
 
-    const baseURL = "https://shintranslations.com/";
     const epub = nodepub.document({
         id: new Date().getTime(),
         cover: "covers/the_new_gate.jpg",
@@ -27,7 +26,17 @@ const volumes = require('../data/the_new_gate');
       });
     
     for(let volume of volumes) {
-        epub.addSection(volume.title, "");
+        epub.addSection(volume.title, `
+            <!DOCTYPE html>
+            <html>
+            <head></head>
+            <body>
+            <p style="position: absolute; top: 30%; left: 50%; transform: translateX(-50%); font-size: 48px; font-weight: bold">
+                ${volume.title}
+            </p>
+            </body>
+            </html>
+        `);
         for(let chapter of volume.chapters) {
             console.log(chapter.title, chapter.href);
 
@@ -54,8 +63,15 @@ const volumes = require('../data/the_new_gate');
                 },
             });
             await tocCrawler.run();
-            console.log(content.length);
-            epub.addSection(chapter.title, content.map(p => `<p>${p}</p>`));
+            epub.addSection(chapter.title, `
+                <!DOCTYPE html>
+                <html>
+                <head></head>
+                <body>
+                    ${content.map(p => `<p>${p}</p>`).join("\n")}
+                </body>
+                </html>
+            `);
         }
     }
 
